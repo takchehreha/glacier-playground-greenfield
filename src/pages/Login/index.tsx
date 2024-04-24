@@ -1,11 +1,11 @@
 import { Button } from '@arco-design/web-react'
 import { observer } from 'mobx-react'
+import { useWeb3Modal } from '@web3modal/ethers/react'
 
 import styles from './style.module.scss'
-import { useStore } from '@libs/store'
 
 const Login = observer(() => {
-  const store = useStore()
+  const modal = useWeb3Modal()
 
   return (
     <div className={styles.wrap}>
@@ -15,9 +15,7 @@ const Login = observer(() => {
           long
           size="large"
           shape="round"
-          onClick={() => {
-            store.walltVisible = true
-          }}
+          onClick={() => modal.open()}
         >
           Connect Wallet
         </Button>

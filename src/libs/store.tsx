@@ -1,9 +1,11 @@
 import { createContext, PropsWithChildren, useContext } from 'react'
 import { makeAutoObservable } from 'mobx'
 import { useLocalObservable } from 'mobx-react'
-import { CollectionRecord, GlacierClient, JSONSchema7Definition } from '@glacier-network/client'
-
-import WalletModal from '@components/WalletModal'
+import {
+  CollectionRecord,
+  GlacierClient,
+  JSONSchema7Definition
+} from '@glacier-network/client'
 
 interface DatesetNode {
   collections: CollectionRecord[]
@@ -124,7 +126,9 @@ class Store {
     const set = this.client!.namespace(this.currentSpace).dataset(dataset)
     await set.createCollection(name, schema)
     const node = this.tree[this.currentSpace][dataset]
-    const detail = await this.client!.namespace(this.currentSpace).queryDataset(dataset)
+    const detail = await this.client!.namespace(this.currentSpace).queryDataset(
+      dataset
+    )
     const newItems = detail.collections.slice(node.collections.length)
     node.collections = node.collections.concat(newItems)
     node.loaded = true
@@ -209,15 +213,7 @@ const context = createContext(store)
 
 export const StoreProvider = (props: PropsWithChildren) => {
   const state = useLocalObservable(() => store)
-  return (
-    <context.Provider value={state}>
-      {props.children}
-      <WalletModal
-        visible={state.walltVisible}
-        onClose={() => (state.walltVisible = false)}
-      />
-    </context.Provider>
-  )
+  return <context.Provider value={state}>{props.children}</context.Provider>
 }
 
 export const useStore = () => {

@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react'
-import { useWeb3React } from '@web3-react/core'
-import { Web3Provider } from '@ethersproject/providers'
+import { useWeb3ModalAccount, useWeb3ModalProvider } from '@web3modal/ethers/react'
 import { Button, Input, Form, FormInstance, Message } from '@arco-design/web-react'
 import { observer } from 'mobx-react'
 
@@ -11,13 +10,14 @@ const Connect = observer(() => {
   const store = useStore()
   const form = useRef<FormInstance>(null)
   const [loading, setLoading] = useState(false)
-  const { account, library } = useWeb3React<Web3Provider>()
+  const { address } = useWeb3ModalAccount()
+  const { walletProvider } = useWeb3ModalProvider()
 
   const submit = async () => {
     const value = await form.current?.validate()
     setLoading(true)
     try {
-      await store.connect(value.url, account!, library?.provider)
+      await store.connect(value.url, address!, walletProvider)
     } catch (error) {
       console.trace(error)
       Message.error('Invalid Endpoint')

@@ -19,12 +19,8 @@ import {
   Modal,
   Message
 } from '@arco-design/web-react'
-import {
-  IconEdit,
-  IconDelete,
-  IconEye
-} from '@arco-design/web-react/icon'
-import { useWeb3React } from '@web3-react/core'
+import { IconEdit, IconDelete, IconEye } from '@arco-design/web-react/icon'
+import { useWeb3ModalAccount } from '@web3modal/ethers/react'
 
 import styles from './style.module.scss'
 import { ReactComponent as IconDatabase } from '@assets/imgs/database.svg'
@@ -44,7 +40,7 @@ const DefaultCmd = 'find({}).skip(0).limit(10)'
 const Document = observer(
   forwardRef((props: Props, ref) => {
     const store = useStore()
-    const { account } = useWeb3React()
+    const { address } = useWeb3ModalAccount()
 
     const tab = useMemo(() => {
       return store.tabs[props.index]
@@ -108,7 +104,7 @@ const Document = observer(
 @Glacier_Labs is building a composable, modular and scalable L2 data network for large-scale Dapps.
 
 Join the #Referral Program via my link
-👉https://www.glacier.io/referral/?${account}
+👉https://www.glacier.io/referral/?${address}
 
 #Campaign #Giveaways #Web3`
 
@@ -221,11 +217,7 @@ Join the #Referral Program via my link
               </Breadcrumb.Item>
             </Breadcrumb>
             <Space direction="vertical" align="end">
-              <Button
-                type="outline"
-                onClick={share}
-                target="_blank"
-              >
+              <Button type="outline" onClick={share} target="_blank">
                 Share to Twitter
               </Button>
               <Button

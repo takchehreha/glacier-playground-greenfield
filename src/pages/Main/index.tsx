@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react'
 import { useEffect } from 'react'
-import { useWeb3React } from '@web3-react/core'
-import { Web3Provider } from '@ethersproject/providers'
+import { useWeb3ModalAccount, useWeb3ModalProvider } from '@web3modal/ethers/react'
 import { Select, Button, Space } from '@arco-design/web-react'
 import { IconPlus, IconUserAdd } from '@arco-design/web-react/icon'
 
@@ -14,12 +13,13 @@ import * as modals from '@libs/modals'
 
 const Main = observer(() => {
   const store = useStore()
-  const { account, library } = useWeb3React<Web3Provider>()
+  const { address } = useWeb3ModalAccount()
+  const { walletProvider } = useWeb3ModalProvider()
 
   useEffect(() => {
-    if (!account || !library) return
-    store.connect(store.endpoint, account!, library.provider)
-  }, [account, library, store])
+    if (!address || !walletProvider) return
+    store.connect(store.endpoint, address, walletProvider)
+  }, [address, walletProvider, store])
 
   return (
     <>

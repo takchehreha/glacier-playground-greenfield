@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useWeb3React } from '@web3-react/core'
+import { useWeb3ModalAccount, useDisconnect } from '@web3modal/ethers/react'
 
 import styles from './style.module.scss'
 import UdLogo from '@assets/imgs/ud_logo.svg'
@@ -9,19 +9,19 @@ import { Space, Button, Dropdown, Menu } from '@arco-design/web-react'
 import { IconDown } from '@arco-design/web-react/icon'
 
 export default function Header() {
-  const { account } = useWeb3React()
+  const { address } = useWeb3ModalAccount()
+  const { disconnect } = useDisconnect()
   const [ready, setReady] = useState(false)
   const [domain, setDomain] = useState('')
 
   const logout = () => {
-    localStorage.setItem('logout', '1')
-    window.location.reload()
+    disconnect()
   }
 
   useEffect(() => {
-    if (!account) return
+    if (!address) return
     service
-      .domains([account])
+      .domains([address])
       .then(data => {
         if (data.data.length) {
           setDomain(data.data[0].meta.domain)
@@ -33,7 +33,7 @@ export default function Header() {
       .finally(() => {
         setReady(true)
       })
-  }, [account])
+  }, [address])
 
   return (
     <header className={styles.header}>
@@ -42,7 +42,7 @@ export default function Header() {
         <span>Glacier Playground</span>
       </a>
       <Space size="medium">
-        {ready && !!account && (
+        {ready && !!address && (
           <Dropdown
             position="br"
             droplist={
@@ -66,7 +66,7 @@ export default function Header() {
                     <span>{domain}</span>
                   </a>
                 ) : (
-                  util.shortAccount(account)
+                  util.shortAccount(address)
                 )}
                 <IconDown />
               </div>
