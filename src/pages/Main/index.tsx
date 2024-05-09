@@ -1,8 +1,11 @@
 import { observer } from 'mobx-react'
 import { useEffect } from 'react'
-import { useWeb3ModalAccount, useWeb3ModalProvider } from '@web3modal/ethers/react'
+import {
+  useWeb3ModalAccount,
+  useWeb3ModalProvider
+} from '@web3modal/ethers/react'
 import { Select, Button, Space } from '@arco-design/web-react'
-import { IconPlus, IconUserAdd } from '@arco-design/web-react/icon'
+import { IconPlus, IconUserAdd, IconFileImage } from '@arco-design/web-react/icon'
 
 import styles from './style.module.scss'
 import { ReactComponent as IconFolder } from '@assets/imgs/folder.svg'
@@ -40,20 +43,28 @@ const Main = observer(() => {
           </Select>
           <span>Datasets: {store.datasets.length}</span>
         </Space>
-        <Button
-          type="primary"
-          href="https://www.glacier.io/referral/"
-          target="_blank"
-          icon={<IconUserAdd />}
-        >Invite</Button>
+        <Space>
+          <Button
+            type="primary"
+            href="https://www.glacier.io/mintnft/"
+            target="_blank"
+            icon={<IconFileImage />}
+          >
+            Mint NFT
+          </Button>
+          <Button
+            type="primary"
+            href="https://www.glacier.io/points/"
+            target="_blank"
+            icon={<IconUserAdd />}
+          >
+            Points
+          </Button>
+        </Space>
       </div>
       <div className={styles.content}>
         <div className={styles.left}>
-          <Button
-            type="primary"
-            long
-            onClick={() => modals.createNamespace()}
-          >
+          <Button type="primary" long onClick={() => modals.createNamespace()}>
             Create a new Namespace
           </Button>
           <Button

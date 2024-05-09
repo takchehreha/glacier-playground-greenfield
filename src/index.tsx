@@ -20,6 +20,22 @@ const mainnet = {
   rpcUrl: 'https://rpc.ankr.com/eth'
 }
 
+const bsc = {
+  chainId: 56,
+  name: 'BNB Smart Chain',
+  currency: 'BNB',
+  explorerUrl: 'https://bscscan.com/',
+  rpcUrl: 'https://rpc.ankr.com/bsc'
+}
+
+const xlayer = {
+  chainId: 196,
+  name: 'xlayer-mainnet',
+  currency: 'OKB',
+  explorerUrl: 'https://www.oklink.com/xlayer',
+  rpcUrl: 'https://xlayerrpc.okx.com'
+}
+
 // 3. Create your application's metadata object
 const metadata = {
   name: document.title,
@@ -41,7 +57,7 @@ const ethersConfig = defaultConfig({
 // 5. Create a Web3Modal instance
 createWeb3Modal({
   ethersConfig,
-  chains: [mainnet],
+  chains: [xlayer, bsc, mainnet],
   projectId,
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
   enableOnramp: true, // Optional - false as default
